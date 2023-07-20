@@ -1,0 +1,17 @@
+FROM node:alpine // 환경 설정
+ENV APP_HOME=/app 
+WORKDIR $APP_HOME // 작업 위치
+COPY package.json ./ // 디렉토리 전체 복사? -> 컨테이너 안에서 npm i 하려면 package.json필요?
+RUN npm i // 빌드 ! -> 필요한 패키지 다운
+//RUN ./gradlew build -x test --stacktrace // 빌드 ! ->
+COPY ./ ./ // 디렉토리 전체 복사 ./?
+CMD ["npm", "run", "start"] // -? docker run 시 실행할 명령어
+
+
+# FROM adoptopenjdk:11-jdk-hotspot 
+# ENV ARTIFACT_NAME=project-0.0.1-SNAPSHOT.jar 
+# ENV APP_HOME=/app
+# WORKDIR $APP_HOME 
+# COPY --from=TEMP_BUILD_IMAGE $APP_HOME/build/libs/$ARTIFACT_NAME . // 빌드된 파일 복사 
+# EXPOSE 8080 // 열어줄 포트 
+# CMD ["java", "-jar", "project-0.0.1-SNAPSHOT.jar"] // 서버 배포 명령어 !
